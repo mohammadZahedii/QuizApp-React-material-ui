@@ -1,10 +1,11 @@
-import logo from './logo.svg';
 import './App.css';
+import CssBaseline from '@mui/material/CssBaseline'
 
 function App() {
   return (
-    <div className="App">
-      <h2>Quiz Project</h2>
+    <div className="app">
+      <CssBaseline/>
+      <h3>quiz App</h3>
     </div>
   );
 }
