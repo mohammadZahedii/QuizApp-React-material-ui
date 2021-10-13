@@ -6,7 +6,7 @@ const Header =()=>{
 
     return(
         <Box sx={{display:'flex',flexDirection:'column',alignItems:'center'}}>
-            <Link style={{textTransform:'uppercase',fontSize:'8vw',fontFamily:'Montserrat',cursor:'pointer'}} to="/">
+            <Link style={{textTransform:'uppercase',fontSize:'6vw',fontFamily:'Montserrat',cursor:'pointer'}} to="/">
                 Intuitive Quiz Hub
             </Link>
             <hr style={{ margin:'10px',width:'100%',backgroundColor:'gray'}}/>
