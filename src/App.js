@@ -1,12 +1,18 @@
 import './App.css';
 import CssBaseline from '@mui/material/CssBaseline'
+import Header from './components/Header/Header'
+import { BrowserRouter } from 'react-router-dom';
+
 
 function App() {
   return (
-    <div className="app">
-      <CssBaseline/>
-      <h3>quiz App</h3>
-    </div>
+    <BrowserRouter>
+      <div className="app">
+        <CssBaseline/>
+        <Header/>
+      </div>
+    </BrowserRouter>
+    
   );
 }
 
