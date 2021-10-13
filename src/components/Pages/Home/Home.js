@@ -5,7 +5,10 @@ import Typography from '@mui/material/Typography'
 import {TextField} from '@mui/material'
 import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
+import MenuItem from '@mui/material/MenuItem'
+import Categories from './../../Categories/Categories'
 
+console.log(Categories)
 const Home =()=>{
 
     return(
@@ -18,8 +21,18 @@ const Home =()=>{
                     <Typography gutterBottom component="span" variant="h4" sx={{display:'flex',justifyContent:'center'}}>Quiz Settings</Typography>
                     <Box sx={{width:'100%',m:t=>t.spacing(1),px:t=>t.spacing(2)}}>
                         <TextField fullWidth label="Enter your Name" variant="outlined" sx={{mb:t=>t.spacing(2)}}/>
-                        <TextField fullWidth select label="Select Category" variant="outlined" sx={{mb:t=>t.spacing(2)}}/>
-                        <TextField fullWidth select label="Select Difficulty" variant="outlined" sx={{mb:t=>t.spacing(2)}}/>
+                        <TextField fullWidth select label="Select Category" variant="outlined" sx={{mb:t=>t.spacing(2)}}>
+                            {
+                                Categories.map(cat=>(
+                                    <MenuItem value={cat.value}  key={cat.category}>{cat.category}</MenuItem>
+                                ))
+                            }
+                        </TextField>
+                        <TextField fullWidth select label="Select Difficulty" variant="outlined" sx={{mb:t=>t.spacing(2)}}>
+                            <MenuItem value="easy">Easy</MenuItem>
+                            <MenuItem value="medium">Medium</MenuItem>
+                            <MenuItem value="hard">Hard</MenuItem>
+                        </TextField>
                         <Button variant="contained" color="primary" fullWidth size="large">
                             Start Quiz
                         </Button>
