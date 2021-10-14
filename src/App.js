@@ -24,7 +24,7 @@ function App() {
   const fetchQuestions=(category,difficulty)=>{
 
     axios.get(
-      `https://opentdb.com/api.php?amount=20${
+      `https://opentdb.com/api.php?amount=10${
        category && `&category=${category}`}${difficulty && `&difficulty=${difficulty}`}&type=multiple`
     )
     .then(Response=>setQuestions(Response.data.results))

@@ -6,7 +6,7 @@ const Result =()=>{
 
     return(
 
-        <di>Result Page</di>
+        <div>Result Page</div>
     )
 }
 
