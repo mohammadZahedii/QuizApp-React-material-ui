@@ -18,6 +18,7 @@ const Home =({name,setName,fetchQuestions})=>{
 
     const history = useHistory();
 
+    // console.log(history)
     const handlesubmit=()=>{
         if(!category || !difficulty || !name){
             setError(true)
@@ -34,7 +35,7 @@ const Home =({name,setName,fetchQuestions})=>{
     return(
         <Grid container spacing={1} sx={{flexDirection:['column','column','row-reverse']}}>
             <Grid item xs={12} md={6}>
-                <img src={Image} style={{width:'100%'}} />
+                <img src={Image} style={{width:'100%'}} alt="quizImage" />
             </Grid>
             <Grid item xs={12} md={6}>
                 <Box sx={{p:t=>t.spacing(1),my:t=>t.spacing(1),mr:t=>t.spacing(1),display:'flex',flexDirection:'column',alignItems:'center',width:'100%'}}>

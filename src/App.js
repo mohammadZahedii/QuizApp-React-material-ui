@@ -1,5 +1,6 @@
 
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
+import axios from 'axios'
 import './App.css';
 import CssBaseline from '@mui/material/CssBaseline'
 import Header from './components/Header/Header'
@@ -15,11 +16,33 @@ import Result from './components/Pages/Result/Result';
 function App() {
 
   const[name,setName]=useState("");
+  const[questions,setQuestions]=useState("")
+  //const[score,setScore]=useState(0)
   
-  const fetchQuestions=()=>{
+
+ 
+
+
+  const fetchQuestions=(category,difficulty)=>{
+
+    axios.get(
+      `https://opentdb.com/api.php?amount=20${
+       category && `&category=${category}`}${difficulty && `&difficulty=${difficulty}`}&type=multiple`
+    )
+    .then(Response=>{
+      console.log(Response)
+      return setQuestions(Response.data.results)
+    })
+    .catch(err=>console.log(err))
 
   }
+  useEffect(()=>{
 
+    fetchQuestions()
+    
+  },[])
+
+  console.log(questions)
   return (
     <BrowserRouter>
       <Box className="app">

@@ -5,7 +5,7 @@ import React from 'react'
 const Quiz =()=>{
 
     return(
-        <di>Quiz Page</di>
+        <div>Quiz Page</div>
     )
 }
 
