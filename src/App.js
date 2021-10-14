@@ -16,31 +16,23 @@ import Result from './components/Pages/Result/Result';
 function App() {
 
   const[name,setName]=useState("");
-  const[questions,setQuestions]=useState("")
-  //const[score,setScore]=useState(0)
+  const[questions,setQuestions]=useState()
+  const[score,setScore]=useState(0)
   
 
  
-
-
   const fetchQuestions=(category,difficulty)=>{
 
     axios.get(
       `https://opentdb.com/api.php?amount=20${
        category && `&category=${category}`}${difficulty && `&difficulty=${difficulty}`}&type=multiple`
     )
-    .then(Response=>{
-      console.log(Response)
-      return setQuestions(Response.data.results)
-    })
+    .then(Response=>setQuestions(Response.data.results))
+  
     .catch(err=>console.log(err))
 
   }
-  useEffect(()=>{
-
-    fetchQuestions()
-    
-  },[])
+  
 
   console.log(questions)
   return (
@@ -52,7 +44,14 @@ function App() {
             <Route path="/" exact>
               <Home name={name} setName={setName} fetchQuestions={fetchQuestions}/>
             </Route>
-            <Route path="/quiz" component={Quiz}/>
+            <Route path="/quiz" component={Quiz}>
+              <Quiz name={name} 
+              questions={questions} 
+              score={score}
+              setScore={setScore}
+              setQuestions={setQuestions}
+              />
+            </Route>
             <Route path="/result" component={Result}/>
           </Switch>
       </Box>
