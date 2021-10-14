@@ -52,7 +52,9 @@ function App() {
               setQuestions={setQuestions}
               />
             </Route>
-            <Route path="/result" component={Result}/>
+            <Route path="/result">
+              <Result name={name} score={score}/>
+            </Route>
           </Switch>
       </Box>
       <Footer />

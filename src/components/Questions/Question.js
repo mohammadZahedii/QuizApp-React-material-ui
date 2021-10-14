@@ -10,7 +10,7 @@ import {useHistory} from 'react-router-dom'
 
 export default function Question(props){
 
-    const{currQues,setCurrQues,Questions,options,correct,setScore,setQuestions}=props
+    const{currQues,setCurrQues,Questions,options,correct,setScore}=props
         const history =useHistory()
         const[selected,setSelected]=useState()
         const[error,setError]=useState(false)
@@ -46,7 +46,7 @@ const handleNext=()=>{
 console.log(currQues)
 
 const handleQuite=()=>{
-    
+
 }
     return(
         <Box sx={{m:1,width:'100%',display:'flex',flexDirection:'column',alignItems:'center'}}>
