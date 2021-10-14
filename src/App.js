@@ -1,3 +1,5 @@
+
+import React,{useState} from 'react';
 import './App.css';
 import CssBaseline from '@mui/material/CssBaseline'
 import Header from './components/Header/Header'
@@ -11,13 +13,22 @@ import Quiz from './components/Pages/Quiz/Quiz';
 import Result from './components/Pages/Result/Result';
 
 function App() {
+
+  const[name,setName]=useState("");
+  
+  const fetchQuestions=()=>{
+
+  }
+
   return (
     <BrowserRouter>
       <Box className="app">
         <CssBaseline/>
         <Header/>
           <Switch> 
-            <Route path="/" exact component={Home}/>
+            <Route path="/" exact>
+              <Home name={name} setName={setName} fetchQuestions={fetchQuestions}/>
+            </Route>
             <Route path="/quiz" component={Quiz}/>
             <Route path="/result" component={Result}/>
           </Switch>
