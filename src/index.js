@@ -2,16 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import {provider} from 'react-redux'
+import {Provider} from 'react-redux'
 import {createStore} from 'redux'
 import reducer from './reducer'
 
 const store =createStore(reducer)
 
 ReactDOM.render(
-  <provider store={store}>
+  <Provider store={store}>
     <App />
-  </provider>
+  </Provider>
   ,
   document.getElementById('root')
 );
