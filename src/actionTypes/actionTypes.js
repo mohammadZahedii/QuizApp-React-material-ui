@@ -1,0 +1,1 @@
+export const CHANGE_NAME_VALUE='CHANGE_NAME_VALUE'
