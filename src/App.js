@@ -12,14 +12,9 @@ import Home from './components/Pages/Home/Home';
 import Quiz from './components/Pages/Quiz/Quiz';
 import Result from './components/Pages/Result/Result';
 
-function App() {
+function App(props) {
 
-  const[name,setName]=useState("");
   
-  const fetchQuestions=()=>{
-
-  }
-
   return (
 
     <BrowserRouter>
@@ -28,7 +23,7 @@ function App() {
         <Header/>
           <Switch> 
             <Route path="/" exact>
-              <Home fetchQuestions={fetchQuestions}/>
+              <Home/>
             </Route>
             <Route path="/quiz" component={Quiz}/>
             <Route path="/result" component={Result}/>
@@ -40,5 +35,8 @@ function App() {
 
   );
 }
+
+
+
 
 export default App;

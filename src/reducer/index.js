@@ -1,7 +1,8 @@
 import { combineReducers } from "redux";
-import {name} from './name'
-
+import {values} from './values'
+import { questions } from "./questions";
 
 export default  combineReducers({
-    name
+    values,
+    questions
 })

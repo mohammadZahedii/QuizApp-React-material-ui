@@ -11,31 +11,55 @@ import { useHistory } from 'react-router-dom'
 import ErrorMessage from './../../ErrorMessage/ErrorMessage'
 import { connect } from 'react-redux'
 import { changeValue } from '../../../actions'
+import { changeCategoryValue } from '../../../actions'
+import { changeDifficultyValue } from '../../../actions'
+import { recieveQuestions } from './../../../actions';
+import { setErrorFalse } from '../../../actions';
+import { setErrorTrue } from '../../../actions'
+import axios from 'axios'
+
 
 const Home =(props)=>{
     console.log(props)
-    const{fetchQuestions,name,changeNameValue}=props
 
 
-    const[category,setCategory]=useState("")
-    const[difficulty,setDifficulty]=useState("")
-    const[error,setError]=useState(false)
+    const{
+        name,category,difficulty,error,
+        changeNameValue,changeCategoryValue,changeDifficultyValue,
+        setQuestions,changeErrorToFalse,changeErrorToTrue
+    }=props
+
+
 
     const history = useHistory();
 
     
     const handlesubmit=()=>{
-        if(!category || !difficulty || !name){
-            setError(true)
+        if(!category || !difficulty ||!name){
+            changeErrorToTrue(true)
             return
         }else{
-            setError(false)
-            fetchQuestions(category,difficulty);
+            changeErrorToFalse(false)
+            fetchQuestions(category,difficulty)
             history.push("/quiz")
         }
 
 
     }
+
+    const fetchQuestions=(category,difficulty)=>{
+
+        axios.get(
+         `https://opentdb.com/api.php?amount=10${
+           category && `&category=${category}`}${difficulty && `&difficulty=${difficulty}`}&type=multiple`
+       )
+       .then(Response=>setQuestions(Response.data.results))
+       .catch(err=>console.log(err))
+     
+      
+   
+   }
+
 
     return(
         <Grid container spacing={1} sx={{flexDirection:['column','column','row-reverse']}}>
@@ -52,7 +76,7 @@ const Home =(props)=>{
                          label="Enter your Name" 
                          variant="outlined" 
                          sx={{mb:t=>t.spacing(2)}}
-                         onChange={(e=>changeNameValue(e.target.value))}
+                         onChange={(e)=>changeNameValue(e.target.value)}
                          />
                         <TextField 
                         fullWidth 
@@ -60,7 +84,7 @@ const Home =(props)=>{
                         label="Select Category" 
                         variant="outlined" 
                         sx={{mb:t=>t.spacing(2)}}
-                        onChange={(e)=>setCategory(e.target.value)}
+                        onChange={(e)=>changeCategoryValue(e.target.value)}
                         value={category}
                         >
                             {
@@ -74,7 +98,7 @@ const Home =(props)=>{
                         select 
                         label="Select Difficulty" 
                         variant="outlined" 
-                        onChange={(e)=>setDifficulty(e.target.value)}
+                        onChange={(e)=>changeDifficultyValue(e.target.value)}
                         value={difficulty}
                         sx={{mb:t=>t.spacing(2)}}>
                             <MenuItem value="easy">Easy</MenuItem>
@@ -97,15 +121,26 @@ const Home =(props)=>{
 
 
 const mapStateToProps=(state)=>{
-    const {name}=state
-    return {name}
+    console.log(state)
+    return{
+        name:state.values.userName,
+        category:state.values.category,
+        difficulty:state.values.difficulty,
+        error:state.values.error
+
+    }
 
 }
 
 const mapDispatchToProps=dispatch=>{
 
 return{
-    changeNameValue:value=>dispatch(changeValue(value))
+    setQuestions:(questions)=>dispatch(recieveQuestions(questions)),
+    changeNameValue:value=>dispatch(changeValue(value)),
+    changeCategoryValue:value=>dispatch(changeCategoryValue(value)),
+    changeDifficultyValue:value=>dispatch(changeDifficultyValue(value)),
+    changeErrorToTrue:boolean=>dispatch(setErrorTrue(boolean)),
+    changeErrorToFalse:boolean=>dispatch(setErrorFalse(boolean)),
 }
 
 }
