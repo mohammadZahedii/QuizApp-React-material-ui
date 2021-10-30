@@ -28,7 +28,7 @@ function App() {
         <Header/>
           <Switch> 
             <Route path="/" exact>
-              <Home name={name} setName={setName} fetchQuestions={fetchQuestions}/>
+              <Home fetchQuestions={fetchQuestions}/>
             </Route>
             <Route path="/quiz" component={Quiz}/>
             <Route path="/result" component={Result}/>

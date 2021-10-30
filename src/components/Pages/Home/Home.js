@@ -9,8 +9,13 @@ import MenuItem from '@mui/material/MenuItem'
 import Categories from './../../Categories/Categories'
 import { useHistory } from 'react-router-dom'
 import ErrorMessage from './../../ErrorMessage/ErrorMessage'
+import { connect } from 'react-redux'
+import { changeValue } from '../../../actions'
 
-const Home =({name,setName,fetchQuestions})=>{
+const Home =(props)=>{
+    console.log(props)
+    const{fetchQuestions,name,changeNameValue}=props
+
 
     const[category,setCategory]=useState("")
     const[difficulty,setDifficulty]=useState("")
@@ -18,6 +23,7 @@ const Home =({name,setName,fetchQuestions})=>{
 
     const history = useHistory();
 
+    
     const handlesubmit=()=>{
         if(!category || !difficulty || !name){
             setError(true)
@@ -46,7 +52,7 @@ const Home =({name,setName,fetchQuestions})=>{
                          label="Enter your Name" 
                          variant="outlined" 
                          sx={{mb:t=>t.spacing(2)}}
-                         onChange={(e=>setName(e.target.value))}
+                         onChange={(e=>changeNameValue(e.target.value))}
                          />
                         <TextField 
                         fullWidth 
@@ -88,4 +94,21 @@ const Home =({name,setName,fetchQuestions})=>{
     )
 }
 
-export default Home;
+
+
+const mapStateToProps=(state)=>{
+    const {name}=state
+    return {name}
+
+}
+
+const mapDispatchToProps=dispatch=>{
+
+return{
+    changeNameValue:value=>dispatch(changeValue(value))
+}
+
+}
+
+
+export default connect(mapStateToProps,mapDispatchToProps)(Home);
