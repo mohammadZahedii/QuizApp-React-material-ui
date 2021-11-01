@@ -4,5 +4,5 @@ import { questions } from "./questions";
 
 export default  combineReducers({
     values,
-    questions
+    questions,
 })

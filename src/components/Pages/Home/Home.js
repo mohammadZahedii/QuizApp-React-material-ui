@@ -20,13 +20,13 @@ import axios from 'axios'
 
 
 const Home =(props)=>{
-    console.log(props)
+    
 
 
     const{
         name,category,difficulty,error,
         changeNameValue,changeCategoryValue,changeDifficultyValue,
-        setQuestions,changeErrorToFalse,changeErrorToTrue
+        fetchQuestions,changeErrorToFalse,changeErrorToTrue
     }=props
 
 
@@ -47,18 +47,7 @@ const Home =(props)=>{
 
     }
 
-    const fetchQuestions=(category,difficulty)=>{
-
-        axios.get(
-         `https://opentdb.com/api.php?amount=10${
-           category && `&category=${category}`}${difficulty && `&difficulty=${difficulty}`}&type=multiple`
-       )
-       .then(Response=>setQuestions(Response.data.results))
-       .catch(err=>console.log(err))
-     
-      
-   
-   }
+    
 
 
     return(
@@ -121,7 +110,6 @@ const Home =(props)=>{
 
 
 const mapStateToProps=(state)=>{
-    console.log(state)
     return{
         name:state.values.userName,
         category:state.values.category,

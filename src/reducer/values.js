@@ -7,7 +7,6 @@ let initialValues={
     difficulty:'',
     score:0,
     error:false,
-    currQues:0
 }
 
 export const values=(state=initialValues,action)=>{

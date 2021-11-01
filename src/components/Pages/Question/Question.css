@@ -1,0 +1,17 @@
+.singleOption{
+    
+    width:100%;
+    padding: 1rem 0;
+    border: none;
+    box-shadow: 0 0 2px black;
+}
+
+.select{
+    background-color: rgb(7,207,0);
+    color: white;
+}
+
+.wrong{
+    background-color: rgb(233,0,0);
+    color: white;
+}
