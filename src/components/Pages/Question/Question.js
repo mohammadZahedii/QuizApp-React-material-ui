@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import { useHistory } from 'react-router-dom'
 import {connect} from 'react-redux'
 import './Question.css'
@@ -7,14 +7,45 @@ import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
+import {setErrorTrue} from './../../../actions'
+import {setErrorFalse} from './../../../actions'
+import {changeScoreValue} from './../../../actions'
+import {changeCurrQuesValue} from './../../../actions'
+
 
 function Question(props){
 
     const[selected,setSelected]=useState()
-    
-    const{options,error,currQues,correct,question}=props
+    const[options,setOptions]=useState()
+
+
+    const{questions,error,currQues,correct,question,
+        changeScoreValue,setErrorFalse,setErrorTrue,
+        setCurrQuesValue
+    }=props
+
     const history =useHistory()
+
     console.log(props)
+
+
+    useEffect(()=>{
+        setOptions(
+            questions && 
+            handleShuffle([
+            questions[currQues]?.correct_answer,
+            ...questions[currQues]?.incorrect_answers,
+            ])
+        
+        );
+
+
+    },[question,currQues])
+
+    const handleShuffle=(optionss)=>{
+        return optionss.sort(()=>Math.random()-0.5)
+    }
+   
     const handleSelect=(item)=>{
         console.log(item)
     if(selected === item && selected===correct){
@@ -29,17 +60,18 @@ function Question(props){
 }
 const handleCheck=(item)=>{
     setSelected(item);
-    //if(item === correct) setScore((prev)=>prev+1);
-    //setError(false)
+    if(item === correct) changeScoreValue();
+    setErrorFalse(false)
 }
 const handleNext=()=>{
     if(currQues>8){
         history.push('/result')
     }else if(selected){
-        //setCurrQues(currQues + 1)
+        setCurrQuesValue()
+        // options.sort(()=>Math.random() - 0.5)
         setSelected()
     }else{
-        //setError('Please select an option first')
+        setErrorTrue('Please select an option first')
     }
 }
 
@@ -112,10 +144,11 @@ let {currQues}=state.questions;
 let {questions}=state.questions
 
     return {
-        options: questions && [
-            questions[currQues].correct_answer,
-            ...questions[currQues].incorrect_answers
-        ].sort(()=>Math.random() - 0.5),
+        // options: questions && [
+        //     questions[currQues].correct_answer,
+        //     ...questions[currQues].incorrect_answers
+        // ].sort(()=>Math.random() - 0.5),
+        questions,
         error:state.values.error,
         currQues:state.questions.currQues,
         correct:questions[currQues]?.correct_answer,
@@ -123,4 +156,12 @@ let {questions}=state.questions
     }
 }
 
-export default connect(mapStateToProps)(Question)
+const mapDispatchToProps=dispatch=>{
+    return{
+        setErrorTrue:(error)=>dispatch(setErrorTrue(error)),
+        setErrorFalse:(error)=>dispatch(setErrorFalse(error)),
+        changeScoreValue:()=>dispatch(changeScoreValue()),
+        setCurrQuesValue:()=>dispatch(changeCurrQuesValue())
+    }
+}
+export default connect(mapStateToProps,mapDispatchToProps)(Question)

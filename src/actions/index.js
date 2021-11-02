@@ -27,3 +27,10 @@ export const setErrorFalse=(boolean)=>({
     type:types.CHANGE_ERROR_FALSE,
     error:boolean
 })
+export const changeScoreValue=()=>({
+    type:types.SET_SCORE_VALUE,
+    
+})
+export const changeCurrQuesValue=()=>({
+    type:types.SET_CURRQUES_VALUE,
+})

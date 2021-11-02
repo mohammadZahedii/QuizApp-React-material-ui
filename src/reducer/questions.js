@@ -1,4 +1,4 @@
-import {RECIEVE_QUESTIONS, SET_ANSWERS_SHUFFLED} from './../actionTypes/actionTypes'
+import {RECIEVE_QUESTIONS,SET_CURRQUES_VALUE ,SET_ANSWERS_SHUFFLED} from './../actionTypes/actionTypes'
 
 
 const initialState={
@@ -16,6 +16,12 @@ export const questions=(state=initialState,action)=>{
                ...state,
                questions:action.questions,
            }
+        case SET_CURRQUES_VALUE:
+                let {currQues}=state
+            return{
+                ...state,
+                    currQues:currQues+1
+            }
         default:
            return state
     }
