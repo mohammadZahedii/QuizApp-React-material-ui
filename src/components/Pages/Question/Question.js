@@ -7,22 +7,32 @@ import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
-import {setErrorTrue} from './../../../actions'
-import {setErrorFalse} from './../../../actions'
-import {changeScoreValue} from './../../../actions'
-import {changeCurrQuesValue} from './../../../actions'
-
+import {useSelector} from 'react-redux'
+import {useQuestionDispatch} from './../../../dipatch/MyDispatch'
 
 function Question(props){
-
+    
     const[selected,setSelected]=useState()
     const[options,setOptions]=useState()
 
 
-    const{questions,error,currQues,correct,question,
-        changeScoreValue,setErrorFalse,setErrorTrue,
-        setCurrQuesValue
-    }=props
+    const{settingErrorTrue,settingErrorFalse,changeMyScoreValue,setCurrQuesValue}=useQuestionDispatch()
+    const results =useSelector((state)=>{
+        let {currQues}=state.questions;
+        let {questions}=state.questions
+
+    return {
+        questions,
+        error:state.values.error,
+        currQues:state.questions.currQues,
+        correct:questions[currQues]?.correct_answer,
+        question:questions[currQues]?.question
+    }
+
+    })
+
+    const{questions,error,currQues,correct,question}=results
+    
 
     const history =useHistory()
 
@@ -60,23 +70,19 @@ function Question(props){
 }
 const handleCheck=(item)=>{
     setSelected(item);
-    if(item === correct) changeScoreValue();
-    setErrorFalse(false)
+    if(item === correct) changeMyScoreValue();
+    settingErrorFalse(false)
 }
 const handleNext=()=>{
     if(currQues>8){
         history.push('/result')
     }else if(selected){
         setCurrQuesValue()
-        // options.sort(()=>Math.random() - 0.5)
         setSelected()
     }else{
-        setErrorTrue('Please select an option first')
+        settingErrorTrue('Please select an option first')
     }
 }
-
-
-
 const handleQuite=()=>{
 
 }
@@ -138,30 +144,7 @@ const handleQuite=()=>{
     )
 }
 
-const mapStateToProps=state=>{
-    
-let {currQues}=state.questions;
-let {questions}=state.questions
 
-    return {
-        // options: questions && [
-        //     questions[currQues].correct_answer,
-        //     ...questions[currQues].incorrect_answers
-        // ].sort(()=>Math.random() - 0.5),
-        questions,
-        error:state.values.error,
-        currQues:state.questions.currQues,
-        correct:questions[currQues]?.correct_answer,
-        question:questions[currQues]?.question
-    }
-}
 
-const mapDispatchToProps=dispatch=>{
-    return{
-        setErrorTrue:(error)=>dispatch(setErrorTrue(error)),
-        setErrorFalse:(error)=>dispatch(setErrorFalse(error)),
-        changeScoreValue:()=>dispatch(changeScoreValue()),
-        setCurrQuesValue:()=>dispatch(changeCurrQuesValue())
-    }
-}
-export default connect(mapStateToProps,mapDispatchToProps)(Question)
+
+export default Question;

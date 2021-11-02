@@ -9,26 +9,33 @@ import MenuItem from '@mui/material/MenuItem'
 import Categories from './../../Categories/Categories'
 import { useHistory } from 'react-router-dom'
 import ErrorMessage from './../../ErrorMessage/ErrorMessage'
-import { connect } from 'react-redux'
 import { changeValue } from '../../../actions'
 import { changeCategoryValue } from '../../../actions'
 import { changeDifficultyValue } from '../../../actions'
 import { recieveQuestions } from './../../../actions';
 import { setErrorFalse } from '../../../actions';
 import { setErrorTrue } from '../../../actions'
-import axios from 'axios'
+import {useSelector} from 'react-redux'
+import {useHomeDispatch} from './../../../dipatch/MyDispatch'
 
-
-const Home =(props)=>{
+function Home (props){
     
+const results = useSelector((state)=>{
+    return{
+        name:state.values.userName,
+        category:state.values.category,
+        difficulty:state.values.difficulty,
+        error:state.values.error
+    }
+})
 
-
-    const{
-        name,category,difficulty,error,
-        changeNameValue,changeCategoryValue,changeDifficultyValue,
-        fetchQuestions,changeErrorToFalse,changeErrorToTrue
-    }=props
-
+const {name,category,difficulty,error}=results;
+const{
+    changeNameValue,
+    changeMyCategoryValue,
+    changeMyDifficultyValue,
+    changeErrorToFalse,
+    changeErrorToTrue}=useHomeDispatch()
 
 
     const history = useHistory();
@@ -40,15 +47,12 @@ const Home =(props)=>{
             return
         }else{
             changeErrorToFalse(false)
-            fetchQuestions(category,difficulty)
+            props.fetchQuestions(category,difficulty)
             history.push("/quiz")
         }
 
 
     }
-
-    
-
 
     return(
         <Grid container spacing={1} sx={{flexDirection:['column','column','row-reverse']}}>
@@ -73,7 +77,7 @@ const Home =(props)=>{
                         label="Select Category" 
                         variant="outlined" 
                         sx={{mb:t=>t.spacing(2)}}
-                        onChange={(e)=>changeCategoryValue(e.target.value)}
+                        onChange={(e)=>changeMyCategoryValue(e.target.value)}
                         value={category}
                         >
                             {
@@ -87,7 +91,7 @@ const Home =(props)=>{
                         select 
                         label="Select Difficulty" 
                         variant="outlined" 
-                        onChange={(e)=>changeDifficultyValue(e.target.value)}
+                        onChange={(e)=>changeMyDifficultyValue(e.target.value)}
                         value={difficulty}
                         sx={{mb:t=>t.spacing(2)}}>
                             <MenuItem value="easy">Easy</MenuItem>
@@ -109,29 +113,4 @@ const Home =(props)=>{
 
 
 
-const mapStateToProps=(state)=>{
-    return{
-        name:state.values.userName,
-        category:state.values.category,
-        difficulty:state.values.difficulty,
-        error:state.values.error
-
-    }
-
-}
-
-const mapDispatchToProps=dispatch=>{
-
-return{
-    setQuestions:(questions)=>dispatch(recieveQuestions(questions)),
-    changeNameValue:value=>dispatch(changeValue(value)),
-    changeCategoryValue:value=>dispatch(changeCategoryValue(value)),
-    changeDifficultyValue:value=>dispatch(changeDifficultyValue(value)),
-    changeErrorToTrue:boolean=>dispatch(setErrorTrue(boolean)),
-    changeErrorToFalse:boolean=>dispatch(setErrorFalse(boolean)),
-}
-
-}
-
-
-export default connect(mapStateToProps,mapDispatchToProps)(Home);
+export default Home;

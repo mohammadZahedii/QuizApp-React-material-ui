@@ -11,17 +11,14 @@ import { Route } from 'react-router-dom';
 import Home from './components/Pages/Home/Home';
 import Quiz from './components/Pages/Quiz/Quiz';
 import Result from './components/Pages/Result/Result';
-import { recieveQuestions } from './actions';
-import {connect} from 'react-redux'
 import axios from 'axios'
-
-
+import {useAppDispatch} from './dipatch/MyDispatch'
 
 function App(props) {
+ 
+ const {setQuestions}=useAppDispatch() 
 
-  // const[questions,setQuestions]=useState()
-  
-  const {setQuestions}=props
+
   const fetchQuestions=(category,difficulty)=>{
 
     axios.get(
@@ -31,9 +28,10 @@ function App(props) {
    .then(Response=>setQuestions(Response.data.results))
    .catch(err=>console.log(err))
  
-  
 
 }
+
+ 
   return (
 
     <BrowserRouter>
@@ -44,9 +42,7 @@ function App(props) {
             <Route path="/" exact>
               <Home fetchQuestions={fetchQuestions}/>
             </Route>
-            <Route path="/quiz">
-              <Quiz/>
-            </Route>
+            <Route path="/quiz" component={Quiz}/>
             <Route path="/result" component={Result}/>
           </Switch>
       </Box>
@@ -58,15 +54,5 @@ function App(props) {
 }
 
 
-const mapDispatchToProps=dispatch=>({
 
-
-  setQuestions:questions=>dispatch(recieveQuestions(questions))
-
-})
-
-
-const mapStateToProps=state=>({
-    questions:state.questions
-})
-export default connect(null,mapDispatchToProps)(App)
+export default App;

@@ -1,30 +1,25 @@
-import React,{useEffect,useState} from 'react'
+import React from 'react'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import CircularProgress from '@mui/material/CircularProgress';
 import Question from './../Question/Question';
-import {connect} from 'react-redux'
-const Quiz =(props)=>{
-  
-    const{questionCategory,score,name}=props
-    // const[options,setOptions]=useState()
-    // const[currQues,setCurrQues]=useState(0)
+import { useSelector } from 'react-redux';
 
-
-    // useEffect(()=>{
-    //        if(questions){
-    //             optionsShuffled(questions,currQues)
-
-    //        }
-            
-   
-    // },[]);
+function Quiz(props){
 
     
-    // const handleShuffle=(optionss)=>{
-    //     return optionss.sort(()=>Math.random()-0.5)
-    // }
-   
+    const results =useSelector((state)=>{
+        let {questions}=state.questions
+        let {currQues}=state.questions
+        return{
+            score:state.values.score,
+            name:state.values.userName,
+            questionCategory:questions[currQues]?.category
+        }
+    })
+
+    const{questionCategory,score,name}=results
+
 
 
     return(
@@ -52,18 +47,4 @@ const Quiz =(props)=>{
     
 }
 
-
-
-const mapStateToProps=state=>{
-    let {questions}=state.questions
-    let {currQues}=state.questions
-    return{
-        score:state.values.score,
-        name:state.values.userName,
-        questionCategory:questions[currQues]?.category
-    }
-}
-
-
-
-export default connect(mapStateToProps)(Quiz);
+export default Quiz;
